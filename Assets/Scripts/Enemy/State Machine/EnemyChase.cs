@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyIdle : EnemyState
+[System.Serializable]
+public class EnemyChase : EnemyState
 {
+    public float moveSpeedMultiplier = 1.3f;
+
     public override void Awake(EnemyStateMachine stateMachine)
     {
         //throw new System.NotImplementedException();
@@ -11,7 +14,7 @@ public class EnemyIdle : EnemyState
 
     public override void Enter(EnemyStateMachine stateMachine)
     {
-        //throw new System.NotImplementedException();
+        stateMachine.movement.moveSpeedMultiplier = moveSpeedMultiplier;
     }
 
     public override void Exit(EnemyStateMachine stateMachine)
@@ -21,6 +24,6 @@ public class EnemyIdle : EnemyState
 
     public override void Update(EnemyStateMachine stateMachine)
     {
-        //throw new System.NotImplementedException();
+        stateMachine.movement.TargetPos = stateMachine.playerTransform.position;
     }
 }
