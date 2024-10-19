@@ -21,6 +21,15 @@ public class EnemyMovement : MonoBehaviour
         } 
     }
 
+    public float DistanceToTarget
+    {
+        get
+        {
+            return ((Vector2)transform.position - _targetPos).magnitude;
+        }
+    }
+
+
     [HideInInspector]
     public float moveSpeedMultiplier = 1f;
 

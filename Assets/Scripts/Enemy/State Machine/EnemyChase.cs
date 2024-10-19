@@ -7,6 +7,9 @@ public class EnemyChase : EnemyState
 {
     public float moveSpeedMultiplier = 1.3f;
 
+    [SerializeField, Tooltip("The distance to be from target before attacking")]
+    private float _attackStopRange = .4f;
+
     public override void Awake(EnemyStateMachine stateMachine)
     {
         //throw new System.NotImplementedException();
@@ -28,5 +31,7 @@ public class EnemyChase : EnemyState
 
         if (!stateMachine.CanSeePlayer())
             stateMachine.TransitionToState(stateMachine.patrolState);
+        else if(stateMachine.movement.DistanceToTarget <= _attackStopRange)
+            stateMachine.TransitionToState(stateMachine.attackState);
     }
 }

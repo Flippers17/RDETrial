@@ -19471,13 +19471,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d5829505ee65904c92e7c27a832de25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  patrolState:
+    _minimumPatrolPoints: 2
+    _maximumPatrolPoints: 3
+    _patrolRadius: 8
+    _moveSpeedMultiplier: 0.8
   chaseState:
     moveSpeedMultiplier: 1.3
   movement: {fileID: 1613269441}
   _visionObstructionLayers:
     serializedVersion: 2
     m_Bits: 0
-  _visionRange: 3
+  _visionRange: 6
   playerTransform: {fileID: 0}
 --- !u!212 &1613269438
 SpriteRenderer:
