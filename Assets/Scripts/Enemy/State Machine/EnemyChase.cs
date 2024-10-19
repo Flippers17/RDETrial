@@ -25,5 +25,8 @@ public class EnemyChase : EnemyState
     public override void Update(EnemyStateMachine stateMachine)
     {
         stateMachine.movement.TargetPos = stateMachine.playerTransform.position;
+
+        if (!stateMachine.CanSeePlayer())
+            stateMachine.TransitionToState(stateMachine.patrolState);
     }
 }

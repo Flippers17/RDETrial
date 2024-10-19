@@ -32,7 +32,7 @@ public class EnemyStateMachine : MonoBehaviour
         chaseState.Awake(this);
         attackState.Awake(this);
 
-        _currentState = idleState;
+        _currentState = patrolState;
         _currentState.Enter(this);
     }
 
@@ -53,5 +53,17 @@ public class EnemyStateMachine : MonoBehaviour
     {
         Vector2 playerDir = playerTransform.position - transform.position;
         return !Physics.Raycast(transform.position, playerDir.normalized, _visionRange, _visionObstructionLayers) && playerDir.sqrMagnitude < (_visionRange * _visionRange);
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.white;
+
+        Gizmos.DrawWireSphere(transform.position, _visionRange);
+
+        Gizmos.color = Color.yellow;
+
+        Gizmos.DrawWireSphere(transform.position, patrolState._patrolRadius);
     }
 }
