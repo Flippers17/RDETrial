@@ -107,6 +107,43 @@ public class PathfindingGrid : MonoBehaviour
         return neighbours;
     }
 
+
+    /// <summary>
+    /// Checks for nearest unoccupied space to a specified point on the grid.
+    /// </summary>
+    /// <param name="pos">The given point to search around</param>
+    /// <param name="unoccupied">The nearest unoccupied space</param>
+    /// <returns>True if it finds an unoccupied space, false if it does not.</returns>
+    public bool GetNearestUnoccupiedSpace(Vector2 pos, out Vector2 unoccupied)
+    {
+        Vector2Int gridPos = GetNodeFromWorldPos(pos);
+        unoccupied = Vector2.zero;
+
+        int multiplier = 1;
+
+        while(multiplier < 10)
+        {
+            for(int x = -1 * multiplier;x <= 1 * multiplier; x++)
+            {
+                for (int y = -1 * multiplier;y <= 1 * multiplier; y++)
+                {
+                    if (Mathf.Abs(x) < multiplier || Mathf.Abs(y) < multiplier || (x == 0 && y == 0))
+                        continue;
+
+                    if(!IsBlocked(gridPos + new Vector2Int(x, y)))
+                    {
+                        unoccupied = _worldToGrid.inverse.MultiplyPoint((Vector2)gridPos + new Vector2Int(x, y));
+                        return true;
+                    }
+                }
+            }
+
+            multiplier++;
+        }
+
+        return false;
+    }
+
     private void OnDrawGizmosSelected()
     {
         if(!_debug) return;

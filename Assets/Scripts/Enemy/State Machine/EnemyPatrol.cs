@@ -27,13 +27,17 @@ public class EnemyPatrol : EnemyState
 
         Vector2[] patrolPoints = new Vector2[numberOfPatrolPoints];
         List<Vector2> patrolPath = new List<Vector2>();
+        patrolPoints[0] = stateMachine.transform.position;
 
-        for(int i = 0; i < numberOfPatrolPoints; i++)
+        for(int i = 1; i < numberOfPatrolPoints; i++)
         {
-            patrolPoints[i] = (Vector2)stateMachine.transform.position + Random.insideUnitCircle * _patrolRadius;
+            if(Pathfinder.Instance.Grid.GetNearestUnoccupiedSpace((Vector2)stateMachine.transform.position + Random.insideUnitCircle * _patrolRadius, out Vector2 p))
+                patrolPoints[i] = p;
+            else
+                patrolPoints[i] = stateMachine.transform.position;
         }
 
-        for(int i = 0;i < numberOfPatrolPoints; i++)
+        for(int i = 0; i < numberOfPatrolPoints; i++)
         {
             Vector2[] path = Pathfinder.Instance.GetPath(patrolPoints[i], patrolPoints[(i + 1) % numberOfPatrolPoints]);
 

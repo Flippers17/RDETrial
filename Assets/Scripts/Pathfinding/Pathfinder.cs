@@ -16,6 +16,8 @@ public class Pathfinder : MonoBehaviour
     [SerializeField]
     private PathfindingGrid _grid;
 
+    public PathfindingGrid Grid { get => _grid; }
+
     [SerializeField]
     private int _maxSearches = 1000;
 
