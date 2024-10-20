@@ -10,6 +10,11 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField, Tooltip("The distance from it is from it's target when it stops")]
     private float _stopDistance = .5f;
 
+
+    [SerializeField]
+    private bool _debug;
+
+
     private Vector2 _targetPos;
     public Vector2 TargetPos {
         get { return _targetPos; }
@@ -48,6 +53,7 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(_followingPath);
         HandleMovement();
     }
 
@@ -92,8 +98,8 @@ public class EnemyMovement : MonoBehaviour
 
     public void SetPath(Vector2[] path, bool loopPath)
     {
-        _currentPath = path;
         _currentPathIndex = 0;
+        _currentPath = path;
         _loopPath = loopPath;
         _followingPath = true;
     }
@@ -108,6 +114,26 @@ public class EnemyMovement : MonoBehaviour
             {
                 Gizmos.DrawWireSphere(_currentPath[i], .3f);
             }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+
+        if(!_debug)
+            return;
+
+        if (_followingPath)
+        {
+            Gizmos.color = Color.green;
+
+            for (int i = 0; i < _currentPath.Length - 1; i++)
+            {
+                Gizmos.DrawWireSphere(_currentPath[i], .3f);
+                Gizmos.DrawLine(_currentPath[i], _currentPath[i + 1]);
+            }
+
+            Gizmos.DrawWireSphere(_currentPath[^1], .3f);
         }
     }
 }

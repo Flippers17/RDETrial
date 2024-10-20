@@ -26,13 +26,25 @@ public class EnemyPatrol : EnemyState
         int numberOfPatrolPoints = Random.Range(_minimumPatrolPoints, _maximumPatrolPoints + 1);
 
         Vector2[] patrolPoints = new Vector2[numberOfPatrolPoints];
+        List<Vector2> patrolPath = new List<Vector2>();
 
         for(int i = 0; i < numberOfPatrolPoints; i++)
         {
             patrolPoints[i] = (Vector2)stateMachine.transform.position + Random.insideUnitCircle * _patrolRadius;
         }
 
-        stateMachine.movement.SetPath(patrolPoints, true);
+        for(int i = 0;i < numberOfPatrolPoints; i++)
+        {
+            Vector2[] path = Pathfinder.Instance.GetPath(patrolPoints[i], patrolPoints[(i + 1) % numberOfPatrolPoints]);
+
+            for(int j = 0; j < path.Length; j++)
+            {
+                patrolPath.Add(path[j]);
+            }
+        }
+
+
+        stateMachine.movement.SetPath(patrolPath.ToArray(), true);
         stateMachine.movement.moveSpeedMultiplier = _moveSpeedMultiplier;
     }
 

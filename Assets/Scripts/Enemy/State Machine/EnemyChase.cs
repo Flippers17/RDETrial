@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -27,11 +28,14 @@ public class EnemyChase : EnemyState
 
     public override void Update(EnemyStateMachine stateMachine)
     {
-        stateMachine.movement.TargetPos = stateMachine.playerTransform.position;
+        Vector2[] path = Pathfinder.Instance.GetPath(stateMachine.transform.position, stateMachine.playerTransform.position);
+        if(path.Length > 2)
+            stateMachine.movement.TargetPos = path[2];
+
 
         if (!stateMachine.CanSeePlayer())
             stateMachine.TransitionToState(stateMachine.patrolState);
-        else if(stateMachine.movement.DistanceToTarget <= _attackStopRange)
+        else if (stateMachine.movement.DistanceToTarget <= _attackStopRange)
             stateMachine.TransitionToState(stateMachine.attackState);
     }
 }
