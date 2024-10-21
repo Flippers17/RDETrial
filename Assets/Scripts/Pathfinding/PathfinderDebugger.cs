@@ -24,6 +24,8 @@ public class PathfinderDebugger : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        if(!p0 || !p1) return;
+
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(p0.position, .3f);
         Gizmos.DrawWireSphere(p1.position, .3f);
