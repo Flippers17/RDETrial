@@ -34,6 +34,9 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    private Vector2 _facingDirection = new Vector2(1, 0);
+    public Vector2 FacingDirection { get => _facingDirection; }
+
 
     [HideInInspector]
     public float moveSpeedMultiplier = 1f;
@@ -53,7 +56,6 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(_followingPath);
         HandleMovement();
     }
 
@@ -63,14 +65,20 @@ public class EnemyMovement : MonoBehaviour
         if(_followingPath)
         {
             HandlePathFollowing();
+
+            if (_currentPathIndex == _currentPath.Length -1 && IsWithinStoppingDistance())
+                return;
         }
-        
-        if (IsWithinStoppingDistance())
+        else if (IsWithinStoppingDistance())
             return;
+        
 
 
         Vector2 pos = transform.position;
-        transform.Translate((_targetPos - pos).normalized * (_moveSpeed * moveSpeedMultiplier * Time.deltaTime));
+        if (moveSpeedMultiplier > 0f)
+            _facingDirection = (_targetPos - pos).normalized;
+
+        transform.Translate(_facingDirection * (_moveSpeed * moveSpeedMultiplier * Time.deltaTime));
     }
 
     private void HandlePathFollowing()
@@ -81,10 +89,10 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
 
-        _targetPos = _currentPath[_currentPathIndex];
-
         if (IsWithinStoppingDistance())
             _currentPathIndex = _loopPath ? (_currentPathIndex + 1) % _currentPath.Length : _currentPathIndex + 1;
+
+        _targetPos = _currentPath[_currentPathIndex];
     }
 
 
@@ -96,9 +104,9 @@ public class EnemyMovement : MonoBehaviour
     }
 
 
-    public void SetPath(Vector2[] path, bool loopPath)
+    public void SetPath(Vector2[] path, bool loopPath, int startIndex)
     {
-        _currentPathIndex = 0;
+        _currentPathIndex = startIndex;
         _currentPath = path;
         _loopPath = loopPath;
         _followingPath = true;

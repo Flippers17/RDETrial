@@ -10,6 +10,11 @@ public class EnemyChase : EnemyState
 
     [SerializeField, Tooltip("The distance to be from target before attacking")]
     private float _attackStopRange = .4f;
+    
+    [SerializeField, Tooltip("The time it takes before the enemy loses the player after losing sight of the player. If it loses sight of the player, it will still follow it for this many seconds.")]
+    private float _timeToLosePlayer = .4f;
+    private float _timeWhenLostSight = 0;
+    private bool _seeingPlayer = true;
 
     public override void Awake(EnemyStateMachine stateMachine)
     {
@@ -19,6 +24,7 @@ public class EnemyChase : EnemyState
     public override void Enter(EnemyStateMachine stateMachine)
     {
         stateMachine.movement.moveSpeedMultiplier = moveSpeedMultiplier;
+        _seeingPlayer = true;
     }
 
     public override void Exit(EnemyStateMachine stateMachine)
@@ -29,13 +35,22 @@ public class EnemyChase : EnemyState
     public override void Update(EnemyStateMachine stateMachine)
     {
         Vector2[] path = Pathfinder.Instance.GetPath(stateMachine.transform.position, stateMachine.playerTransform.position);
-        if(path.Length > 2)
-            stateMachine.movement.TargetPos = path[2];
 
+        stateMachine.movement.SetPath(path, false, 1);
 
         if (!stateMachine.CanSeePlayer())
-            stateMachine.TransitionToState(stateMachine.patrolState);
-        else if (stateMachine.movement.DistanceToTarget <= _attackStopRange)
+        {
+            if (_seeingPlayer)
+            {
+                _timeWhenLostSight = Time.time;
+                _seeingPlayer = false;
+            }
+            else if (_timeWhenLostSight + _timeToLosePlayer < Time.time)
+                stateMachine.TransitionToState(stateMachine.patrolState);
+        }
+        else if (((Vector2)stateMachine.transform.position - path[^1]).sqrMagnitude <= _attackStopRange * _attackStopRange)
             stateMachine.TransitionToState(stateMachine.attackState);
+        else
+            _seeingPlayer = true;
     }
 }

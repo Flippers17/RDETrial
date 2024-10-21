@@ -48,7 +48,7 @@ public class EnemyPatrol : EnemyState
         }
 
 
-        stateMachine.movement.SetPath(patrolPath.ToArray(), true);
+        stateMachine.movement.SetPath(patrolPath.ToArray(), true, 0);
         stateMachine.movement.moveSpeedMultiplier = _moveSpeedMultiplier;
     }
 
