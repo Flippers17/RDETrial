@@ -116,6 +116,8 @@ MonoBehaviour:
     _attackTime: 0.5
     _attackCooldown: 1
     _cancelDistance: 1.5
+  specialAttackState:
+    _attackTime: 0.5
   movement: {fileID: 2059482153593236784}
   attackBehaviour: {fileID: 275133966477117276}
   _visionObstructionLayers:
@@ -152,8 +154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackOffset: 0
-  _attackSize: 0
-  _attackDamage: 0
+  _attackSize: 1
+  _attackDamage: 1
+  _specialAttackPrefab: {fileID: 5584358892833411190, guid: a1beecff2059dd148adc6623e4288a52, type: 3}
+  _specialAttackCooldown: 10
 --- !u!58 &6100160089639480426
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -239,7 +243,19 @@ MonoBehaviour:
       m_Calls: []
   OnDie:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3490508614839023580}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4300334489582925511
 GameObject:
   m_ObjectHideFlags: 0

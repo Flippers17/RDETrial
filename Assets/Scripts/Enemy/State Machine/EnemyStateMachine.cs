@@ -9,10 +9,12 @@ public class EnemyStateMachine : MonoBehaviour
     public EnemyPatrol patrolState = new EnemyPatrol();
     public EnemyChase chaseState = new EnemyChase();
     public EnemyAttack attackState = new EnemyAttack();
+    public EnemySpecialAttackState specialAttackState = new EnemySpecialAttackState();
 
     private EnemyState _currentState;
 
     public EnemyMovement movement;
+    public EnemyAttackBehaviour attackBehaviour;
 
     [SerializeField]
     private LayerMask _visionObstructionLayers;
@@ -31,9 +33,12 @@ public class EnemyStateMachine : MonoBehaviour
         patrolState.Awake(this);   
         chaseState.Awake(this);
         attackState.Awake(this);
+        specialAttackState.Awake(this);
 
         _currentState = patrolState;
         _currentState.Enter(this);
+
+        EnemyHealthBarsManager.Instance.AddHealthBar(GetComponent<Health>());
     }
 
     // Update is called once per frame

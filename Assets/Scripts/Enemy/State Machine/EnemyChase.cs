@@ -48,6 +48,8 @@ public class EnemyChase : EnemyState
             else if (_timeWhenLostSight + _timeToLosePlayer < Time.time)
                 stateMachine.TransitionToState(stateMachine.patrolState);
         }
+        else if(stateMachine.attackBehaviour.CanDoSpecial())
+            stateMachine.TransitionToState(stateMachine.specialAttackState);
         else if (((Vector2)stateMachine.transform.position - path[^1]).sqrMagnitude <= _attackStopRange * _attackStopRange)
             stateMachine.TransitionToState(stateMachine.attackState);
         else
