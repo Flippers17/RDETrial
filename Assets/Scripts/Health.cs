@@ -9,6 +9,8 @@ public class Health : MonoBehaviour
     private int _health;
     [SerializeField]
     private int _maxHealth;
+    [SerializeField]
+    private GameObject _deathEffect;
 
     public UnityEvent OnTakeDamage;
     public UnityEvent<int, int> OnHealthUpdated;
@@ -35,6 +37,9 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
+        if (_deathEffect != null)
+            Instantiate(_deathEffect, transform.position, Quaternion.identity);
+        
         OnDie?.Invoke();
     }
 }

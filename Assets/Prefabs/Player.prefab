@@ -338,6 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 5
   _maxHealth: 5
+  _deathEffect: {fileID: 520112346218588622, guid: ddeac2a11fc5f304cb1046fc2602ba78, type: 3}
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []

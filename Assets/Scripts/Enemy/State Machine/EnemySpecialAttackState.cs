@@ -18,6 +18,7 @@ public class EnemySpecialAttackState : EnemyState
     public override void Enter(EnemyStateMachine stateMachine)
     {
         stateMachine.movement.moveSpeedMultiplier = 0;
+        stateMachine.movement.TargetPos = stateMachine.playerTransform.position;
         TriggerAttack(stateMachine);
         stateMachine.animator.SetBool("Attacking", true);
     }
