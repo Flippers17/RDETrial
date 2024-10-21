@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     [Space(15), SerializeField]
     private float _maxSpeed = 6f;
 
+    private Vector2 _facingDirection = new Vector2(1, 0);
+    public Vector2 FacingDirection { get => _facingDirection; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _rb.velocity = _inputHandler.MoveInput.normalized * _maxSpeed;   
+        if (_inputHandler.MoveInput.sqrMagnitude > 0)
+        {
+            _facingDirection = _inputHandler.MoveInput.normalized;
+            _rb.velocity = _facingDirection * _maxSpeed;   
+        }
+        else
+            _rb.velocity = Vector2.zero;
+
+        
     }
 }
