@@ -23,6 +23,8 @@ public class EnemyPatrol : EnemyState
 
     public override void Enter(EnemyStateMachine stateMachine)
     {
+        stateMachine.animator.SetBool("Patroling", true);
+
         int numberOfPatrolPoints = Random.Range(_minimumPatrolPoints, _maximumPatrolPoints + 1);
 
         Vector2[] patrolPoints = new Vector2[numberOfPatrolPoints];
@@ -54,7 +56,7 @@ public class EnemyPatrol : EnemyState
 
     public override void Exit(EnemyStateMachine stateMachine)
     {
-        //throw new System.NotImplementedException();
+        stateMachine.animator.SetBool("Patroling", false);
     }
 
     public override void Update(EnemyStateMachine stateMachine)

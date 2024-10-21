@@ -26,11 +26,12 @@ public class EnemyAttack : EnemyState
     public override void Enter(EnemyStateMachine stateMachine)
     {
         stateMachine.movement.moveSpeedMultiplier = 0;
+        stateMachine.animator.SetBool("Attacking", true);
     }
 
     public override void Exit(EnemyStateMachine stateMachine)
     {
-        //throw new System.NotImplementedException();
+        stateMachine.animator.SetBool("Attacking", false);
     }
 
     public override void Update(EnemyStateMachine stateMachine)

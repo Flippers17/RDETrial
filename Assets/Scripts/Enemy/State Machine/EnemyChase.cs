@@ -25,11 +25,12 @@ public class EnemyChase : EnemyState
     {
         stateMachine.movement.moveSpeedMultiplier = moveSpeedMultiplier;
         _seeingPlayer = true;
+        stateMachine.animator.SetBool("Chasing", true);
     }
 
     public override void Exit(EnemyStateMachine stateMachine)
     {
-        //throw new System.NotImplementedException();
+        stateMachine.animator.SetBool("Chasing", false);
     }
 
     public override void Update(EnemyStateMachine stateMachine)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStateMachine : MonoBehaviour
 {
-
+    [Header("States")]
     public EnemyIdle idleState = new EnemyIdle();
     public EnemyPatrol patrolState = new EnemyPatrol();
     public EnemyChase chaseState = new EnemyChase();
@@ -13,10 +13,12 @@ public class EnemyStateMachine : MonoBehaviour
 
     private EnemyState _currentState;
 
+    [Space(15)]
     public EnemyMovement movement;
     public EnemyAttackBehaviour attackBehaviour;
+    public Animator animator;
 
-    [SerializeField]
+    [SerializeField, Space(15)]
     private LayerMask _visionObstructionLayers;
     [SerializeField]
     private float _visionRange = 5f;
